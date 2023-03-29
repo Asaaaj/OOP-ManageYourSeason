@@ -7,6 +7,17 @@ public class TeamManager implements User{
     public void displayName() {
 
     }
+
+    @Override
+    public void logIn() {
+
+    }
+
+    @Override
+    public void logOut() {
+
+    }
+
     public void sendRequest() {
     }
 }
