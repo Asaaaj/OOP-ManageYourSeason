@@ -1,7 +1,9 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class ApplicationFrame extends JFrame {
+public class ApplicationFrame extends JFrame implements Application{
     JFrame frame;
 
     public void start() {
@@ -9,7 +11,7 @@ public class ApplicationFrame extends JFrame {
         JPanel panel = new JPanel();
 
         panel.setSize(frame.getWidth(), frame.getHeight());
-        panel.setLayout(new GridLayout(8,1,0, 20));
+        panel.setLayout(new GridLayout(8,1,0, 0));
 
         frame.add(panel);
         JLabel title = new JLabel("MYS", SwingConstants.CENTER);
@@ -37,6 +39,7 @@ public class ApplicationFrame extends JFrame {
 
         frame.add(panel);
         frame.setSize(400, 600);
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 }

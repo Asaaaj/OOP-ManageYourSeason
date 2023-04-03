@@ -1,7 +1,14 @@
-public class TeamManager implements User{
+package model;
+
+import controller.AdminControl;
+import model.User;
+
+public class Administrator implements User {
     private String name;
     private String login;
     private String password;
+    private AdminControl control;
+
 
     @Override
     public void displayName() {
@@ -18,6 +25,4 @@ public class TeamManager implements User{
 
     }
 
-    public void sendRequest() {
-    }
 }

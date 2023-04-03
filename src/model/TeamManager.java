@@ -1,9 +1,9 @@
-public class Administrator implements User{
+package model;
+
+public class TeamManager implements User {
     private String name;
     private String login;
     private String password;
-    private AdminControl control;
-
 
     @Override
     public void displayName() {
@@ -20,4 +20,6 @@ public class Administrator implements User{
 
     }
 
+    public void sendRequest() {
+    }
 }

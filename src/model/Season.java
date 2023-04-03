@@ -1,3 +1,7 @@
+package model;
+
+import model.RaceWeek;
+
 import java.util.ArrayList;
 
 public class Season {

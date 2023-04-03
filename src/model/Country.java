@@ -1,3 +1,5 @@
+package model;
+
 public class Country {
     private int summerTemperature;
     private int springTemperature;
