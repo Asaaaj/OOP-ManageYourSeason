@@ -7,6 +7,7 @@ public class AdminControl {
 
     public Season startSeason(){
         return null;
+
     }
 
     public RaceWeek addRace() {
@@ -17,9 +18,7 @@ public class AdminControl {
         return null;
     }
 
-    public RaceWeek changeTime() {
+    public RaceWeek changeDate() {
         return null;
     }
-
-
 }

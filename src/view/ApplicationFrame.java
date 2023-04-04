@@ -2,12 +2,20 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import controller.*;
+import model.Administrator;
+import model.User;
+
 
 public class ApplicationFrame extends JFrame implements Application{
     JFrame frame;
 
     public void start() {
-        frame = new JFrame("MYS");
+        frame = logInFrame();
+    }
+
+    private JFrame logInFrame() {
+        JFrame frame = new JFrame("MYS | Log In");
         JPanel panel = new JPanel();
 
         panel.setSize(frame.getWidth(), frame.getHeight());
@@ -22,10 +30,7 @@ public class ApplicationFrame extends JFrame implements Application{
         JLabel password = new JLabel("Password:");
         JTextField passwordInput = new JPasswordField();
         JButton logIn = new JButton("Log in");
-        JButton exitButton = new JButton("End");
-
-
-        exitButton.addActionListener((event) -> System.exit(0));
+        JButton exitButton = new JButton("Exit");
 
         panel.add(title, BorderLayout.CENTER);
         panel.add(underTitle);
@@ -36,10 +41,31 @@ public class ApplicationFrame extends JFrame implements Application{
         panel.add(logIn);
         panel.add(exitButton);
 
-
         frame.add(panel);
         frame.setSize(400, 600);
         frame.setResizable(false);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        exitButton.addActionListener((event) -> System.exit(0));
+        logIn.addActionListener((event) -> {
+            User user = ApplicationControl.checkLogIn(usernameInput.getText(), passwordInput.getText());
+            frame.remove(panel);
+            frame.add(adminFrame());
+            frame.add(user.panel());
+            frame.setSize(900, 600);
+            if(user instanceof Administrator) {
+                System.out.println("user is administrator");
+            }
+
+        });
+        return frame;
+    }
+
+    private JPanel adminFrame() {
+        JPanel panel = new JPanel();
+        JLabel title = new JLabel("MYS", SwingConstants.CENTER);
+        panel.add(title);
+        return panel;
     }
 }
