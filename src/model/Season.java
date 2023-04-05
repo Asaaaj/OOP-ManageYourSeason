@@ -8,8 +8,13 @@ public class Season {
     private int numberOfRaces;
     ArrayList<RaceWeek> raceWeeks;
     ArrayList<Country> countries;
+    private boolean isStarted = false;
 
-
+    public Season() {
+        raceWeeks = new ArrayList<>();
+        countries = new ArrayList<>();
+        countries = loadCountries();
+    }
 
     public ArrayList<RaceWeek> getRaceWeeks() {
         return raceWeeks;
@@ -17,6 +22,22 @@ public class Season {
 
     public void setRaceWeeks(ArrayList<RaceWeek> raceWeeks) {
         this.raceWeeks = raceWeeks;
+    }
+
+    public ArrayList<Country> getCountries() {
+        return countries;
+    }
+
+    public void setCountries(ArrayList<Country> countries) {
+        this.countries = countries;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean started) {
+        isStarted = started;
     }
 
     public ArrayList<Country> loadCountries() {

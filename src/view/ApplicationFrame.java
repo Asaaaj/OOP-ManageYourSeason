@@ -51,8 +51,8 @@ public class ApplicationFrame extends JFrame implements Application{
         logIn.addActionListener((event) -> {
             User user = ApplicationControl.checkLogIn(usernameInput.getText(), passwordInput.getText());
             frame.remove(panel);
-            frame.add(adminFrame());
-            frame.add(user.panel());
+            frame.add(user.control(panel));
+            frame.setTitle("MYS | " + user.controlName());
             frame.setSize(900, 600);
             if(user instanceof Administrator) {
                 System.out.println("user is administrator");
@@ -60,12 +60,5 @@ public class ApplicationFrame extends JFrame implements Application{
 
         });
         return frame;
-    }
-
-    private JPanel adminFrame() {
-        JPanel panel = new JPanel();
-        JLabel title = new JLabel("MYS", SwingConstants.CENTER);
-        panel.add(title);
-        return panel;
     }
 }

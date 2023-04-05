@@ -29,4 +29,28 @@ public class Country {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getSummerTemperature() {
+        return summerTemperature;
+    }
+
+    public void setSummerTemperature(int summerTemperature) {
+        this.summerTemperature = summerTemperature;
+    }
+
+    public int getSpringTemperature() {
+        return springTemperature;
+    }
+
+    public void setSpringTemperature(int springTemperature) {
+        this.springTemperature = springTemperature;
+    }
+
+    public int getAutumnTemperature() {
+        return autumnTemperature;
+    }
+
+    public void setAutumnTemperature(int autumnTemperature) {
+        this.autumnTemperature = autumnTemperature;
+    }
 }

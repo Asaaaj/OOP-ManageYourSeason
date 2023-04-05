@@ -1,16 +1,18 @@
 package model;
 
+import controller.TeamManagerControl;
+
 import javax.swing.*;
-import java.awt.*;
 
 public class TeamManager implements User {
-    private String name = "manager";
-    private String login;
-    private String password;
+    private String teamName;
+    private String username = "teammanager";
+    private String password = "1111";
+    private TeamManagerControl control = new TeamManagerControl();
 
     @Override
     public void displayName() {
-        System.out.println(name);
+        System.out.println(username);
     }
 
     @Override
@@ -27,11 +29,12 @@ public class TeamManager implements User {
     }
 
     @Override
-    public JPanel panel() {
-        JPanel panel = new JPanel();
-        JLabel title = new JLabel("Team Manager", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.PLAIN, 40));
-        panel.add(title, BorderLayout.CENTER);
-        return panel;
+    public JPanel control(JPanel logInPanel) {
+        return control.panel(logInPanel);
+    }
+
+    @Override
+    public String controlName() {
+        return "Administrator Control Menu";
     }
 }
