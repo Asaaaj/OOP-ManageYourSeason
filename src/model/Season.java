@@ -16,12 +16,17 @@ public class Season {
         countries = loadCountries();
     }
 
+    public int getNumberOfRaces() {
+        return numberOfRaces;
+    }
+
     public ArrayList<RaceWeek> getRaceWeeks() {
         return raceWeeks;
     }
 
     public void setRaceWeeks(ArrayList<RaceWeek> raceWeeks) {
         this.raceWeeks = raceWeeks;
+        numberOfRaces = raceWeeks.size();
     }
 
     public ArrayList<Country> getCountries() {
@@ -43,29 +48,29 @@ public class Season {
     public ArrayList<Country> loadCountries() {
         ArrayList<Country> loadedArray = new ArrayList<>();
 
-        loadedArray.add(new Country("Bahrain", 37, 30, 30));
-        loadedArray.add(new Country("Saudi Arabia", 37, 30, 30));
-        loadedArray.add(new Country("Australia", 37, 30, 30));
-        loadedArray.add(new Country("Azerbaijan", 37, 30, 30));
-        loadedArray.add(new Country("USA - Miami", 37, 30, 30));
-        loadedArray.add(new Country("Italy - Emilia-Romagna", 37, 30, 30));
-        loadedArray.add(new Country("Monaco", 37, 30, 30));
-        loadedArray.add(new Country("Spain", 37, 30, 30));
-        loadedArray.add(new Country("Canada", 37, 30, 30));
-        loadedArray.add(new Country("Austria", 37, 30, 30));
-        loadedArray.add(new Country("Great Britain", 37, 30, 30));
-        loadedArray.add(new Country("Hungary", 37, 30, 30));
-        loadedArray.add(new Country("Belgium", 37, 30, 30));
-        loadedArray.add(new Country("Netherlands", 37, 30, 30));
-        loadedArray.add(new Country("Italy - Monza", 37, 30, 30));
-        loadedArray.add(new Country("Singapore", 37, 30, 30));
-        loadedArray.add(new Country("Japan", 37, 30, 30));
-        loadedArray.add(new Country("Qatar", 37, 30, 30));
-        loadedArray.add(new Country("USA - Texas", 37, 30, 30));
-        loadedArray.add(new Country("Mexico", 37, 30, 30));
-        loadedArray.add(new Country("Brazil", 37, 30, 30));
-        loadedArray.add(new Country("USA - Las Vegas", 37, 30, 30));
-        loadedArray.add(new Country("Abu Dhabi", 37, 30, 30));
+        loadedArray.add(new Country("Australia", 15, 25, 23));
+        loadedArray.add(new Country("Japan", 23, 10, 14));
+        loadedArray.add(new Country("Singapore", 28, 28, 28));
+        loadedArray.add(new Country("Abu Dhabi", 36, 28, 29));
+        loadedArray.add(new Country("Qatar", 37, 27, 30));
+        loadedArray.add(new Country("Bahrain", 36, 27, 30));
+        loadedArray.add(new Country("Saudi Arabia", 33, 29, 30));
+        loadedArray.add(new Country("Azerbaijan", 26, 13, 17));
+        loadedArray.add(new Country("Hungary", 22, 12, 12));
+        loadedArray.add(new Country("Austria", 17, 12, 8));
+        loadedArray.add(new Country("Italy - Emilia-Romagna", 24, 14, 15));
+        loadedArray.add(new Country("Italy - Monza", 24, 14, 15));
+        loadedArray.add(new Country("Monaco", 22, 15, 15));
+        loadedArray.add(new Country("Spain", 23, 12, 15));
+        loadedArray.add(new Country("Belgium", 19, 10, 11));
+        loadedArray.add(new Country("Netherlands", 19, 10, 11));
+        loadedArray.add(new Country("Great Britain", 16, 8, 10));
+        loadedArray.add(new Country("Canada", 13, 0, 6));
+        loadedArray.add(new Country("USA - Las Vegas", 33, 21, 23));
+        loadedArray.add(new Country("USA - Texas", 26, 15, 15));
+        loadedArray.add(new Country("USA - Miami", 29, 25, 26));
+        loadedArray.add(new Country("Mexico", 26, 22, 22));
+        loadedArray.add(new Country("Brazil", 24, 26, 27));
 
         return loadedArray;
     }

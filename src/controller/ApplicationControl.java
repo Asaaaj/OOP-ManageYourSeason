@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ApplicationControl {
     public static User checkLogIn(String usernameInput, String passwordInput) {
         if(usernameInput.equals("admin") && passwordInput.equals("1111")){
-            return new Administrator();
+            return Administrator.getInstance();
         }
         else return new TeamManager();
     }
@@ -21,5 +21,19 @@ public class ApplicationControl {
             }
         }
         return season;
+    }
+
+    public static ArrayList<Country> removeAddedCountry(String raceName, ArrayList<Country> countries) {
+        int countryPosition = 0;
+        for (Country country : countries) {
+            if (raceName.equals(country.getName())) {
+                break;
+            }
+            else {
+                countryPosition++;
+            }
+        }
+        if (countryPosition < countries.size()) countries.remove(countryPosition);
+        return countries;
     }
 }

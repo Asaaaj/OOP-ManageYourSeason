@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TeamManagerControl {
-    public JPanel panel(JPanel logInPanel) {
+    public JPanel panel() {
         JPanel panel = new JPanel();
         JLabel title = new JLabel("Team Manager", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.PLAIN, 40));

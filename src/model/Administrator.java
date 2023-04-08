@@ -5,12 +5,20 @@ import controller.AdminControl;
 import javax.swing.*;
 
 public class Administrator implements User {
+    private static Administrator administrator = null;
     private String name;
     private final String username = "admin";
     private String login;
     private String password = "1111";
     private final AdminControl control = new AdminControl();
 
+    //SINGLETON
+    public static Administrator getInstance() {
+        if (administrator == null) {
+            administrator = new Administrator();
+        }
+        return administrator;
+    }
 
     @Override
     public void displayName() {
@@ -28,8 +36,8 @@ public class Administrator implements User {
     }
 
     @Override
-    public JPanel control(JPanel logInPanel) {
-        return control.panel(logInPanel);
+    public JPanel control() {
+        return control.panel();
     }
 
     @Override

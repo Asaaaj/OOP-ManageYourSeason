@@ -29,8 +29,8 @@ public class TeamManager implements User {
     }
 
     @Override
-    public JPanel control(JPanel logInPanel) {
-        return control.panel(logInPanel);
+    public JPanel control() {
+        return control.panel();
     }
 
     @Override

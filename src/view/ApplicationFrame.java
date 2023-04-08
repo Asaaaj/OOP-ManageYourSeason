@@ -51,7 +51,7 @@ public class ApplicationFrame extends JFrame implements Application{
         logIn.addActionListener((event) -> {
             User user = ApplicationControl.checkLogIn(usernameInput.getText(), passwordInput.getText());
             frame.remove(panel);
-            frame.add(user.control(panel));
+            frame.add(user.control());
             frame.setTitle("MYS | " + user.controlName());
             frame.setSize(900, 600);
             if(user instanceof Administrator) {

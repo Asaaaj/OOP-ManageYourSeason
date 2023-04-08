@@ -3,6 +3,7 @@ package controller;
 import model.Country;
 import model.RaceWeek;
 import model.Season;
+import view.AdminView;
 import view.ApplicationFrame;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class AdminControl {
+    private AdminView adminView = new AdminView();
     private Season season;
 
     public Season startSeason(){
@@ -29,7 +31,7 @@ public class AdminControl {
         return null;
     }
 
-    public JPanel panel(JPanel logInPanel) {
+    public JPanel panel() {
         JPanel panel = new JPanel(new GridLayout(6, 3));
         JLabel title = new JLabel("Administrator", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -48,7 +50,7 @@ public class AdminControl {
         addRaceButton.addActionListener((event) -> {
             System.out.println("Add a Race");
             JFrame frame = new JFrame("MYS | Add a Race");
-            JPanel addRacePanel = new JPanel(new GridLayout(30,0));
+            JPanel addRacePanel = new JPanel(new GridLayout(50,0));
             JLabel addRaceTitle = new JLabel("Add a Race", SwingConstants.CENTER);
             addRaceTitle.setFont(new Font("Arial", Font.PLAIN, 30));
 
@@ -56,7 +58,7 @@ public class AdminControl {
 
             if(season == null) {
                 season = new Season();
-                JLabel addRaceText = new JLabel("From a list bellow add 1st Race");
+                JLabel addRaceText = new JLabel("From a list bellow add a 1st Race");
                 addRacePanel.add(addRaceText);
             }
             else {
@@ -69,13 +71,56 @@ public class AdminControl {
             addRacePanel.add(addRaceInput);
             addRacePanel.add(confirmRace);
 
+            JLabel featuredRaces = new JLabel("Featured races");
+            featuredRaces.setFont(new Font("Arial", Font.PLAIN, 20));
+            addRacePanel.add(featuredRaces);
+            addRacePanel.add(new JLabel(""));
+            if (season.getNumberOfRaces() < 8) {
+                for(Country country : season.getCountries()) {
+                    if (country.getSpringTemperature() >= 21) {
+                        JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
+                        countryName.setFont(new Font("Arial", Font.PLAIN, 18));
+                        JLabel countryInfo = new JLabel("Spring temperature:" + country.getSpringTemperature());
+                        addRacePanel.add(countryName);
+                        addRacePanel.add(countryInfo);
+                    }
+                }
+            }
+            else if(season.getNumberOfRaces() >= 8 && season.getNumberOfRaces() < 17) {
+                for(Country country : season.getCountries()) {
+                    if (country.getSummerTemperature() >= 25 && country.getSummerTemperature() < 31) {
+                        JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
+                        countryName.setFont(new Font("Arial", Font.PLAIN, 18));
+                        JLabel countryInfo = new JLabel("Summer temperature:" + country.getSummerTemperature());
+                        addRacePanel.add(countryName);
+                        addRacePanel.add(countryInfo);
+                    }
+                }
+            }
+            else if(season.getNumberOfRaces() >= 17 && season.getNumberOfRaces() < 25) {
+                for(Country country : season.getCountries()) {
+                    if (country.getAutumnTemperature() >= 22 && country.getSummerTemperature() < 31) {
+                        JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
+                        countryName.setFont(new Font("Arial", Font.PLAIN, 18));
+                        JLabel countryInfo = new JLabel("Autumn temperature:" + country.getAutumnTemperature());
+                        addRacePanel.add(countryName);
+                        addRacePanel.add(countryInfo);
+                    }
+                }
+            }
+
+            JLabel listOfRaces = new JLabel("List of all races");
+            listOfRaces.setFont(new Font("Arial", Font.PLAIN, 20));
+            addRacePanel.add(listOfRaces);
+            addRacePanel.add(new JLabel(""));
+
             for(Country country : season.getCountries()) {
-                JLabel countryName = new JLabel(country.getName());
+                JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
                 JLabel countryInfo = new JLabel("Summer temp:" + country.getSummerTemperature() + " Spring temp:" + country.getSpringTemperature() + " Autumn temp:" + country.getAutumnTemperature());
                 addRacePanel.add(countryName);
                 addRacePanel.add(countryInfo);
             }
-                    
+
             frame.add(new JScrollPane(addRacePanel));
             frame.setSize(1000, 600);
             frame.setResizable(false);
@@ -84,6 +129,8 @@ public class AdminControl {
 
             confirmRace.addActionListener((click) -> {
                 season.setRaceWeeks(ApplicationControl.checkAddRaceInput(addRaceInput.getText(), season.getRaceWeeks(), season.getCountries()));
+                season.setCountries(ApplicationControl.removeAddedCountry(addRaceInput.getText(), season.getCountries()));
+
                 for (RaceWeek raceWeek : season.getRaceWeeks()) {
                     System.out.println("Country: " + raceWeek.getCountry().getName() + " | Temperature: " + raceWeek.getRaceTemperature());
                 }

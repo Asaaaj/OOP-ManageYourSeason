@@ -6,6 +6,6 @@ public interface User {
      void displayName();
      void logIn();
      void logOut();
-     JPanel control(JPanel logInPanel);
+     JPanel control();
      String controlName();
 }
