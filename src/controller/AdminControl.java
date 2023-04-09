@@ -80,7 +80,7 @@ public class AdminControl {
                     if (country.getSpringTemperature() >= 21) {
                         JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
                         countryName.setFont(new Font("Arial", Font.PLAIN, 18));
-                        JLabel countryInfo = new JLabel("Spring temperature:" + country.getSpringTemperature());
+                        JLabel countryInfo = new JLabel("Spring temperature: " + country.getSpringTemperature() + " °C");
                         addRacePanel.add(countryName);
                         addRacePanel.add(countryInfo);
                     }
@@ -91,7 +91,7 @@ public class AdminControl {
                     if (country.getSummerTemperature() >= 25 && country.getSummerTemperature() < 31) {
                         JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
                         countryName.setFont(new Font("Arial", Font.PLAIN, 18));
-                        JLabel countryInfo = new JLabel("Summer temperature:" + country.getSummerTemperature());
+                        JLabel countryInfo = new JLabel("Summer temperature: " + country.getSummerTemperature() + " °C");
                         addRacePanel.add(countryName);
                         addRacePanel.add(countryInfo);
                     }
@@ -102,7 +102,7 @@ public class AdminControl {
                     if (country.getAutumnTemperature() >= 22 && country.getSummerTemperature() < 31) {
                         JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
                         countryName.setFont(new Font("Arial", Font.PLAIN, 18));
-                        JLabel countryInfo = new JLabel("Autumn temperature:" + country.getAutumnTemperature());
+                        JLabel countryInfo = new JLabel("Autumn temperature: " + country.getAutumnTemperature() + " °C");
                         addRacePanel.add(countryName);
                         addRacePanel.add(countryInfo);
                     }
@@ -116,7 +116,15 @@ public class AdminControl {
 
             for(Country country : season.getCountries()) {
                 JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
-                JLabel countryInfo = new JLabel("Summer temp:" + country.getSummerTemperature() + " Spring temp:" + country.getSpringTemperature() + " Autumn temp:" + country.getAutumnTemperature());
+                if(season.getRaceWeeks().size() > 0){
+                    switch(ApplicationControl.distanceFromPreviousRace(season.getRaceWeeks().get(season.getRaceWeeks().size()-1).getCountry(), country)) {
+                        case 0 -> country.setDistanceFromPreviousRace("Same Region");
+                        case 1 -> country.setDistanceFromPreviousRace("1 Region Away");
+                        case 2 -> country.setDistanceFromPreviousRace("2 Regions Away");
+                        case 3 -> country.setDistanceFromPreviousRace("3 Regions Away");
+                    }
+                }
+                JLabel countryInfo = new JLabel("Distance: " + country.getDistanceFromPreviousRace() + " Summer temp: " + country.getSummerTemperature() + " °C" + " Spring temp: " + country.getSpringTemperature() + " °C" + " Autumn temp: " + country.getAutumnTemperature() + " °C");
                 addRacePanel.add(countryName);
                 addRacePanel.add(countryInfo);
             }
@@ -132,7 +140,7 @@ public class AdminControl {
                 season.setCountries(ApplicationControl.removeAddedCountry(addRaceInput.getText(), season.getCountries()));
 
                 for (RaceWeek raceWeek : season.getRaceWeeks()) {
-                    System.out.println("Country: " + raceWeek.getCountry().getName() + " | Temperature: " + raceWeek.getRaceTemperature());
+                    System.out.println("Country: " + raceWeek.getCountry().getName() + " | Temperature: " + raceWeek.getRaceTemperature() + " °C");
                 }
                 frame.dispose();
             });

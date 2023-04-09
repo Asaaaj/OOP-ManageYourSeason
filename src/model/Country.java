@@ -5,20 +5,26 @@ public class Country {
     private int summerTemperature;
     private int springTemperature;
     private int autumnTemperature;
-    private int distanceFromPreviousRace;
+    private String distanceFromPreviousRace;
+    private final String region;
 
-    public Country(String name, int summerTemperature, int springTemperature, int autumnTemperature) {
+    public Country(String name, int summerTemperature, int springTemperature, int autumnTemperature, String region) {
         this.name = name;
         this.summerTemperature = summerTemperature;
         this.springTemperature = springTemperature;
         this.autumnTemperature = autumnTemperature;
+        this.region = region;
     }
 
-    public int getDistanceFromPreviousRace() {
+    public String getRegion() {
+        return region;
+    }
+
+    public String getDistanceFromPreviousRace() {
         return distanceFromPreviousRace;
     }
 
-    public void setDistanceFromPreviousRace(int distanceFromPreviousRace) {
+    public void setDistanceFromPreviousRace(String distanceFromPreviousRace) {
         this.distanceFromPreviousRace = distanceFromPreviousRace;
     }
 
