@@ -6,6 +6,7 @@ public class Country {
     private int springTemperature;
     private int autumnTemperature;
     private String distanceFromPreviousRace;
+    private int distanceFromPreviousRaceInteger;
     private final String region;
 
     public Country(String name, int summerTemperature, int springTemperature, int autumnTemperature, String region) {
@@ -26,6 +27,14 @@ public class Country {
 
     public void setDistanceFromPreviousRace(String distanceFromPreviousRace) {
         this.distanceFromPreviousRace = distanceFromPreviousRace;
+    }
+
+    public void setDistanceFromPreviousRace(int distanceFromPreviousRaceInteger) {
+        this.distanceFromPreviousRaceInteger = distanceFromPreviousRaceInteger;
+    }
+
+    public int getDistanceFromPreviousRaceInteger(){
+        return distanceFromPreviousRaceInteger;
     }
 
     public String getName() {

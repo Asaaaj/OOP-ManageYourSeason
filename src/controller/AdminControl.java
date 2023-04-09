@@ -62,9 +62,10 @@ public class AdminControl {
                 addRacePanel.add(addRaceText);
             }
             else {
-                JLabel addRaceText = new JLabel("Add Race No. " + (season.getRaceWeeks().size() + 1));
+                JLabel addRaceText = new JLabel("Add Race No. " + (season.getRaceWeeks().size() + 1) + " out of 24 Races.");
                 addRacePanel.add(addRaceText);
             }
+
 
             JTextField addRaceInput = new JTextField(SwingConstants.CENTER);
             JButton confirmRace = new JButton("Add a Race");
@@ -77,10 +78,10 @@ public class AdminControl {
             addRacePanel.add(new JLabel(""));
             if (season.getNumberOfRaces() < 8) {
                 for(Country country : season.getCountries()) {
-                    if (country.getSpringTemperature() >= 21) {
+                    if (country.getSpringTemperature() >= 21 && country.getDistanceFromPreviousRaceInteger() < 3) {
                         JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
                         countryName.setFont(new Font("Arial", Font.PLAIN, 18));
-                        JLabel countryInfo = new JLabel("Spring temperature: " + country.getSpringTemperature() + " °C");
+                        JLabel countryInfo = new JLabel("Distance from previous race: " + country.getDistanceFromPreviousRace() + " Spring temperature: " + country.getSpringTemperature() + " °C");
                         addRacePanel.add(countryName);
                         addRacePanel.add(countryInfo);
                     }
@@ -88,10 +89,10 @@ public class AdminControl {
             }
             else if(season.getNumberOfRaces() >= 8 && season.getNumberOfRaces() < 17) {
                 for(Country country : season.getCountries()) {
-                    if (country.getSummerTemperature() >= 25 && country.getSummerTemperature() < 31) {
+                    if (country.getSummerTemperature() >= 23 && country.getSummerTemperature() < 31 && country.getDistanceFromPreviousRaceInteger() < 3) {
                         JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
                         countryName.setFont(new Font("Arial", Font.PLAIN, 18));
-                        JLabel countryInfo = new JLabel("Summer temperature: " + country.getSummerTemperature() + " °C");
+                        JLabel countryInfo = new JLabel("Distance from previous race: " + country.getDistanceFromPreviousRace() + "Summer temperature: " + country.getSummerTemperature() + " °C");
                         addRacePanel.add(countryName);
                         addRacePanel.add(countryInfo);
                     }
@@ -99,10 +100,10 @@ public class AdminControl {
             }
             else if(season.getNumberOfRaces() >= 17 && season.getNumberOfRaces() < 25) {
                 for(Country country : season.getCountries()) {
-                    if (country.getAutumnTemperature() >= 22 && country.getSummerTemperature() < 31) {
+                    if (country.getAutumnTemperature() >= 22 && country.getSummerTemperature() < 31 && country.getDistanceFromPreviousRaceInteger() < 3) {
                         JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
                         countryName.setFont(new Font("Arial", Font.PLAIN, 18));
-                        JLabel countryInfo = new JLabel("Autumn temperature: " + country.getAutumnTemperature() + " °C");
+                        JLabel countryInfo = new JLabel("Distance from previous race: " + country.getDistanceFromPreviousRace() + "Autumn temperature: " + country.getAutumnTemperature() + " °C");
                         addRacePanel.add(countryName);
                         addRacePanel.add(countryInfo);
                     }
@@ -116,15 +117,7 @@ public class AdminControl {
 
             for(Country country : season.getCountries()) {
                 JLabel countryName = new JLabel(country.getName(), SwingConstants.CENTER);
-                if(season.getRaceWeeks().size() > 0){
-                    switch(ApplicationControl.distanceFromPreviousRace(season.getRaceWeeks().get(season.getRaceWeeks().size()-1).getCountry(), country)) {
-                        case 0 -> country.setDistanceFromPreviousRace("Same Region");
-                        case 1 -> country.setDistanceFromPreviousRace("1 Region Away");
-                        case 2 -> country.setDistanceFromPreviousRace("2 Regions Away");
-                        case 3 -> country.setDistanceFromPreviousRace("3 Regions Away");
-                    }
-                }
-                JLabel countryInfo = new JLabel("Distance: " + country.getDistanceFromPreviousRace() + " Summer temp: " + country.getSummerTemperature() + " °C" + " Spring temp: " + country.getSpringTemperature() + " °C" + " Autumn temp: " + country.getAutumnTemperature() + " °C");
+                JLabel countryInfo = new JLabel("Distance from previous race: " + country.getDistanceFromPreviousRace() + " Summer temp: " + country.getSummerTemperature() + " °C" + " Spring temp: " + country.getSpringTemperature() + " °C" + " Autumn temp: " + country.getAutumnTemperature() + " °C");
                 addRacePanel.add(countryName);
                 addRacePanel.add(countryInfo);
             }
@@ -138,6 +131,29 @@ public class AdminControl {
             confirmRace.addActionListener((click) -> {
                 season.setRaceWeeks(ApplicationControl.checkAddRaceInput(addRaceInput.getText(), season.getRaceWeeks(), season.getCountries()));
                 season.setCountries(ApplicationControl.removeAddedCountry(addRaceInput.getText(), season.getCountries()));
+
+                for (Country country : season.getCountries()) {
+                    if(season.getRaceWeeks().size() > 0){
+                        switch(ApplicationControl.distanceFromPreviousRace(season.getRaceWeeks().get(season.getRaceWeeks().size()-1).getCountry(), country)) {
+                            case 0 -> {
+                                country.setDistanceFromPreviousRace("Same Region");
+                                country.setDistanceFromPreviousRace(0);
+                            }
+                            case 1 -> {
+                                country.setDistanceFromPreviousRace("1 Region Away");
+                                country.setDistanceFromPreviousRace(1);
+                            }
+                            case 2 -> {
+                                country.setDistanceFromPreviousRace("2 Regions Away");
+                                country.setDistanceFromPreviousRace(2);
+                            }
+                            case 3 -> {
+                                country.setDistanceFromPreviousRace("3 Regions Away");
+                                country.setDistanceFromPreviousRace(3);
+                            }
+                        }
+                    }
+                }
 
                 for (RaceWeek raceWeek : season.getRaceWeeks()) {
                     System.out.println("Country: " + raceWeek.getCountry().getName() + " | Temperature: " + raceWeek.getRaceTemperature() + " °C");
