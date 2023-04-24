@@ -4,7 +4,4 @@
     <option name="ajcPath" value="C:/aspectj1.9/lib/aspectjtools.jar" />
     <option name="delegateToJavac" value="true" />
   </component>
-  <component name="CompilerConfiguration">
-    <option name="DEFAULT_COMPILER" value="ajc" />
-  </component>
 </project>

@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/aspectj1.9/lib/aspectjrt.jar"/>
 	<classpathentry kind="lib" path="C:/aspectj1.9/lib/aspectjweaver.jar"/>
+	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="output" path="out/production/Zadanie2"/>
 </classpath>

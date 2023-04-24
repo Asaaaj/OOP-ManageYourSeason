@@ -57,7 +57,6 @@ public class ApplicationFrame extends JFrame implements Application{
             if(user instanceof Administrator) {
                 System.out.println("user is administrator");
             }
-
         });
         return frame;
     }
