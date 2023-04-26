@@ -5,7 +5,7 @@ import model.*;
 import java.util.ArrayList;
 
 public class ApplicationControl {
-    public static User checkLogIn(String usernameInput, String passwordInput) {
+    public static User checkLoggingIn(String usernameInput, String passwordInput) {
         if(usernameInput.equals("admin") && passwordInput.equals("1111")){
             return Administrator.getInstance();
         }

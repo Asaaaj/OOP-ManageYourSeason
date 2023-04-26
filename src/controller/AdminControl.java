@@ -9,6 +9,7 @@ import view.ApplicationFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.*;
 
 public class AdminControl {
     private AdminView adminView = new AdminView();
@@ -32,6 +33,21 @@ public class AdminControl {
     }
 
     public JPanel panel() {
+        season = null;
+        try {
+            FileInputStream fileIn = new FileInputStream("season.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            season = (Season) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+        } catch(ClassNotFoundException c) {
+            System.out.println("Season class not found");
+            c.printStackTrace();
+        }
+
+
         JPanel panel = new JPanel(new GridLayout(6, 3));
         JLabel title = new JLabel("Administrator", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -53,8 +69,10 @@ public class AdminControl {
             JPanel addRacePanel = new JPanel(new GridLayout(50,0));
             JLabel addRaceTitle = new JLabel("Add a Race", SwingConstants.CENTER);
             addRaceTitle.setFont(new Font("Arial", Font.PLAIN, 30));
-
+            JButton addNewCountry = new JButton("New Country");
             addRacePanel.add(addRaceTitle);
+            addRacePanel.add(new JLabel(""));
+            addRacePanel.add(addNewCountry);
 
             if(season == null) {
                 season = new Season();
@@ -159,6 +177,60 @@ public class AdminControl {
                     System.out.println("Country: " + raceWeek.getCountry().getName() + " | Temperature: " + raceWeek.getRaceTemperature() + " °C");
                 }
                 frame.dispose();
+            });
+
+            addNewCountry.addActionListener((click) -> {
+                JFrame addNewCountryFrame = new JFrame("MYS | New Country");
+                JPanel addNewCountryPanel = new JPanel(new GridLayout(10, 0));
+                JLabel country = new JLabel("Country:");
+                JTextField countryInput = new JTextField(SwingConstants.CENTER);
+                JLabel region = new JLabel("Region:");
+                String[] regions = {"Australia", "East Asia", "West Asia", "Europe", "North America" , "South America"};
+                JComboBox<String> regionsBox = new JComboBox<>(regions);
+                JLabel summerTemp = new JLabel("Summer Temperature:");
+                JTextField summerTempInput = new JTextField(SwingConstants.CENTER);
+                JLabel springTemp = new JLabel("Spring Temperature:");
+                JTextField springTempInput = new JTextField(SwingConstants.CENTER);
+                JLabel autumnTemp = new JLabel("Autumn Temperature:");
+                JTextField autumnTempInput = new JTextField(SwingConstants.CENTER);
+
+                JButton confirmCountry = new JButton("Confirm");
+
+
+                addNewCountryPanel.add(country);
+                addNewCountryPanel.add(countryInput);
+                addNewCountryPanel.add(summerTemp);
+                addNewCountryPanel.add(summerTempInput);
+                addNewCountryPanel.add(springTemp);
+                addNewCountryPanel.add(springTempInput);
+                addNewCountryPanel.add(autumnTemp);
+                addNewCountryPanel.add(autumnTempInput);
+                addNewCountryPanel.add(region);
+                addNewCountryPanel.add(regionsBox);
+                addNewCountryPanel.add(confirmCountry);
+
+                confirmCountry.addActionListener((action) -> {
+                    season.addCountry(new Country(countryInput.getText(), Integer.parseInt(summerTempInput.getText()), Integer.parseInt(springTempInput.getText()), Integer.parseInt(autumnTempInput.getText()), regionsBox.getSelectedItem().toString()));
+                    addNewCountryFrame.dispose();
+                    frame.dispose();
+                    System.out.println("New Country Added");
+                    try {
+                        FileOutputStream fileOut = new FileOutputStream("season.ser");
+                        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                        out.writeObject(season);
+                        out.close();
+                        fileOut.close();
+                        System.out.println("Season serialized and saved to season.ser");
+                    } catch(IOException i) {
+                        i.printStackTrace();
+                    }
+                });
+
+                addNewCountryFrame.add(addNewCountryPanel);
+                addNewCountryFrame.setSize(1000, 600);
+                addNewCountryFrame.setResizable(false);
+                addNewCountryFrame.setVisible(true);
+                addNewCountryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             });
         });
 

@@ -49,7 +49,7 @@ public class ApplicationFrame extends JFrame implements Application{
 
         exitButton.addActionListener((event) -> System.exit(0));
         logIn.addActionListener((event) -> {
-            User user = ApplicationControl.checkLogIn(usernameInput.getText(), passwordInput.getText());
+            User user = ApplicationControl.checkLoggingIn(usernameInput.getText(), passwordInput.getText());
             frame.remove(panel);
             frame.add(user.control());
             frame.setTitle("MYS | " + user.controlName());
@@ -59,6 +59,8 @@ public class ApplicationFrame extends JFrame implements Application{
             }
 
         });
+
+
         return frame;
     }
 }

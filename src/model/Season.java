@@ -2,9 +2,10 @@ package model;
 
 import model.RaceWeek;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Season {
+public class Season implements Serializable {
     private int numberOfRaces;
     ArrayList<RaceWeek> raceWeeks;
     ArrayList<Country> countries;
@@ -73,5 +74,9 @@ public class Season {
         loadedArray.add(new Country("Brazil", 24, 26, 27, "SouthAmerica"));
 
         return loadedArray;
+    }
+
+    public void addCountry(Country country) {
+        countries.add(country);
     }
 }
