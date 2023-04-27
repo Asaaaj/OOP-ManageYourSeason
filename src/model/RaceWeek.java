@@ -2,7 +2,9 @@ package model;
 
 import model.Country;
 
-public class RaceWeek {
+import java.io.Serializable;
+
+public class RaceWeek implements Serializable {
     private Country country;
     private int raceTemperature;
     private int idealRaceTemperature;

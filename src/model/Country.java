@@ -1,6 +1,8 @@
 package model;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable {
     private String name;
     private int summerTemperature;
     private int springTemperature;

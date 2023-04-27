@@ -193,7 +193,6 @@ public class AdminControl {
                 JTextField springTempInput = new JTextField(SwingConstants.CENTER);
                 JLabel autumnTemp = new JLabel("Autumn Temperature:");
                 JTextField autumnTempInput = new JTextField(SwingConstants.CENTER);
-
                 JButton confirmCountry = new JButton("Confirm");
 
 
@@ -214,16 +213,6 @@ public class AdminControl {
                     addNewCountryFrame.dispose();
                     frame.dispose();
                     System.out.println("New Country Added");
-                    try {
-                        FileOutputStream fileOut = new FileOutputStream("season.ser");
-                        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                        out.writeObject(season);
-                        out.close();
-                        fileOut.close();
-                        System.out.println("Season serialized and saved to season.ser");
-                    } catch(IOException i) {
-                        i.printStackTrace();
-                    }
                 });
 
                 addNewCountryFrame.add(addNewCountryPanel);
@@ -255,6 +244,16 @@ public class AdminControl {
                         season.setStarted(true);
                         frame.dispose();
                         System.out.println("Season start");
+                        try {
+                            FileOutputStream fileOut = new FileOutputStream("season.ser");
+                            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                            out.writeObject(season);
+                            out.close();
+                            fileOut.close();
+                            System.out.println("Season serialized and saved to season.ser");
+                        } catch(IOException i) {
+                            i.printStackTrace();
+                        }
                     });
                 }
                 startSeasonPanel.add(seasonStatus);
