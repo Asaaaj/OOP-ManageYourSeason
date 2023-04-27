@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import controller.*;
 import model.Administrator;
+import model.NoInputException;
 import model.User;
 
 
@@ -50,6 +51,11 @@ public class ApplicationFrame extends JFrame implements Application{
         exitButton.addActionListener((event) -> System.exit(0));
         logIn.addActionListener((event) -> {
             User user = ApplicationControl.checkLoggingIn(usernameInput.getText(), passwordInput.getText());
+            if (usernameInput.getText().equals("") || passwordInput.getText().equals("")) try {
+                throw new NoInputException();
+            } catch (NoInputException e) {
+                throw new RuntimeException(e);
+            }
             frame.remove(panel);
             frame.add(user.control());
             frame.setTitle("MYS | " + user.controlName());

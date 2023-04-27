@@ -34,6 +34,8 @@ public class AdminControl {
 
     public JPanel panel() {
         season = null;
+
+        //DESERIALIZATION
         try {
             FileInputStream fileIn = new FileInputStream("season.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -244,6 +246,8 @@ public class AdminControl {
                         season.setStarted(true);
                         frame.dispose();
                         System.out.println("Season start");
+                        
+                        //SERIALIZATION
                         try {
                             FileOutputStream fileOut = new FileOutputStream("season.ser");
                             ObjectOutputStream out = new ObjectOutputStream(fileOut);
