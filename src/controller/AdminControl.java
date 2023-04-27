@@ -15,23 +15,6 @@ public class AdminControl {
     private AdminView adminView = new AdminView();
     private Season season;
 
-    public Season startSeason(){
-        return null;
-
-    }
-
-    public RaceWeek addRace() {
-        return null;
-    }
-
-    public Season cancelRace() {
-        return null;
-    }
-
-    public RaceWeek changeDate() {
-        return null;
-    }
-
     public JPanel panel() {
         season = null;
 

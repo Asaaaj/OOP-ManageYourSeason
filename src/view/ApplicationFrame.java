@@ -50,23 +50,36 @@ public class ApplicationFrame extends JFrame implements Application{
 
         exitButton.addActionListener((event) -> System.exit(0));
         logIn.addActionListener((event) -> {
-            User user = ApplicationControl.checkLoggingIn(usernameInput.getText(), passwordInput.getText());
-            if (usernameInput.getText().equals("") || passwordInput.getText().equals("")) try {
-                throw new NoInputException();
-            } catch (NoInputException e) {
-                throw new RuntimeException(e);
+            try {
+                User user = ApplicationControl.checkLoggingIn(usernameInput.getText(), passwordInput.getText());
+                //frame.remove(panel);
+                //frame.add(user.control());
+                frame.setContentPane(user.control());
+                frame.setTitle("MYS | " + user.controlName());
+                frame.setSize(900, 600);
+                if(user instanceof Administrator) {
+                    System.out.println("user is administrator");
+                }
+            } catch (NoInputException exception) {
+                System.out.println("d");
+                JPanel exceptionPanel = new JPanel();
+                JLabel exceptionLabel = new JLabel("FILL THE TEXT FIELDS!", SwingConstants.CENTER);
+                exceptionPanel.setSize(frame.getWidth(), frame.getHeight());
+                exceptionPanel.setLayout(new GridLayout(10,1,0, 0));
+                exceptionPanel.add(title, BorderLayout.CENTER);
+                exceptionPanel.add(underTitle);
+                exceptionPanel.add(exceptionLabel);
+                exceptionPanel.add(username);
+                exceptionPanel.add(usernameInput);
+                exceptionPanel.add(password);
+                exceptionPanel.add(passwordInput);
+                exceptionPanel.add(logIn);
+                exceptionPanel.add(exitButton);
+                frame.setContentPane(exceptionPanel);
             }
-            frame.remove(panel);
-            frame.add(user.control());
-            frame.setTitle("MYS | " + user.controlName());
-            frame.setSize(900, 600);
-            if(user instanceof Administrator) {
-                System.out.println("user is administrator");
-            }
+            //CUSTOM EXCEPTION
 
         });
-
-
         return frame;
     }
 }
