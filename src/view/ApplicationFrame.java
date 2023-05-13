@@ -8,8 +8,15 @@ import model.WrongInputException;
 import model.User;
 
 
+/**
+ * Trieda ApplicationFrame predstavuje hlavný frame aplikácie.
+ */
 public class ApplicationFrame extends JFrame implements Application{
 
+    /**
+     * Metóda logInFrame vytvára a vracia JFrame pre prihlásenie.
+     * @return objekt JFrame pre prihlásenie
+     */
     public JFrame logInFrame() {
         JFrame frame = new JFrame("MYS | Log In");
         JPanel panel = new JPanel();
@@ -67,6 +74,7 @@ public class ApplicationFrame extends JFrame implements Application{
                 exceptionPanel.add(exitButton);
                 frame.setContentPane(exceptionPanel);
             } catch (WrongInputException exception) {
+                //CUSTOM EXCEPTION
                 JPanel exceptionPanel = new JPanel();
                 JLabel exceptionLabel = new JLabel("WRONG USERNAME OR PASSWORD!", SwingConstants.CENTER);
                 exceptionPanel.setSize(frame.getWidth(), frame.getHeight());

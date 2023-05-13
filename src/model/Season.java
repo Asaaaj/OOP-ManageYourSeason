@@ -3,6 +3,9 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Trieda predstavujúca sezónu pretekov.
+ */
 public class Season implements Serializable {
     private int numberOfRaces;
     ArrayList<RaceWeek> raceWeeks;
@@ -10,6 +13,10 @@ public class Season implements Serializable {
     private boolean isStarted = false;
     private int currentRace;
 
+    /**
+     * Konštruktor pre triedu Season.
+     * Inicializuje zoznamy týždňov pretekov, krajín a načíta krajiny.
+     */
     public Season() {
         currentRace = 1;
         raceWeeks = new ArrayList<>();
@@ -17,46 +24,88 @@ public class Season implements Serializable {
         countries = loadCountries();
     }
 
+    /**
+     * Metóda na získanie čísla aktuálneho preteku v sezóne.
+     * @return Číslo aktuálneho preteku
+     */
     public int getCurrentRace() {
         return currentRace;
     }
 
+    /**
+     * Metóda na nastavenie čísla aktuálneho preteku v sezóne.
+     * @param currentRace Číslo aktuálneho preteku
+     */
     public void setCurrentRace(int currentRace) {
         this.currentRace = currentRace;
     }
 
+    /**
+     * Metóda na získanie počtu pretekov v sezóne.
+     * @return Počet pretekov v sezóne
+     */
     public int getNumberOfRaces() {
         return numberOfRaces;
     }
 
+    /**
+     * Metóda na získanie zoznamu týždňov pretekov.
+     * @return Zoznam týždňov pretekov
+     */
     public ArrayList<RaceWeek> getRaceWeeks() {
         return raceWeeks;
     }
 
+    /**
+     * Metóda na nastavenie zoznamu týždňov pretekov a určenie počtu pretekov.
+     * @param raceWeeks Zoznam týždňov pretekov
+     */
     public void setRaceWeeks(ArrayList<RaceWeek> raceWeeks) {
         this.raceWeeks = raceWeeks;
         numberOfRaces = raceWeeks.size();
     }
 
+    /**
+     * Metóda na získanie zoznamu krajín.
+     * @return Zoznam krajín
+     */
     public ArrayList<Country> getCountries() {
         return countries;
     }
 
+    /**
+     * Metóda na nastavenie zoznamu krajín.
+     * @param countries Zoznam krajín
+     */
     public void setCountries(ArrayList<Country> countries) {
         this.countries = countries;
     }
 
+    /**
+     *
+     * Metóda na zistenie, či sa sezóna už začala.
+     * @return true, ak sa sezóna začala, inak false
+     */
     public boolean isStarted() {
         return isStarted;
     }
 
+    /**
+     * Metóda na nastavenie stavu sezóny.
+     * @param started Stav sezóny true - začala, false - nezačala
+     */
     public void setStarted(boolean started) {
         isStarted = started;
     }
 
+    /**
+     * Metóda na načítanie krajín a ich pridanie do zoznamu krajín.
+     * @return Zoznam načítaných krajín
+     */
     public ArrayList<Country> loadCountries() {
         ArrayList<Country> loadedArray = new ArrayList<>();
 
+        // Načítanie krajín a pridanie ich do zoznamu
         loadedArray.add(new Country("Australia", 15, 25, 23, "Australia"));
         loadedArray.add(new Country("Japan", 23, 10, 14, "EastAsia"));
         loadedArray.add(new Country("Singapore", 28, 28, 28, "WestAsia"));
@@ -84,6 +133,10 @@ public class Season implements Serializable {
         return loadedArray;
     }
 
+    /**
+     * Metóda na pridanie krajiny do zoznamu krajín.
+     * @param country Krajina na pridanie
+     */
     public void addCountry(Country country) {
         countries.add(country);
     }

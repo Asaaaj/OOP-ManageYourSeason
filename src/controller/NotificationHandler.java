@@ -1,7 +1,6 @@
 package controller;
 
 import model.TeamManager;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileOutputStream;
@@ -10,9 +9,16 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Trieda NotificationHandler je zodpovedná za spracovanie a zobrazovanie notifikácií.
+ */
 public class NotificationHandler implements Serializable {
     private ArrayList<Notification> notifications;
 
+    /**
+     * Konštruktor pre vytvorenie novej inštancie NotificationHandler.
+     * Vytvára prázdny zoznam notifikácií.
+     */
     public NotificationHandler() {
         notifications = new ArrayList<>();
     }
@@ -21,24 +27,48 @@ public class NotificationHandler implements Serializable {
         private TeamManager teamManager;
         private String message;
 
+        /**
+         * Konštruktor pre vytvorenie novej notifikácie.
+         * @param message     správa notifikácie
+         * @param teamManager manažér tímu notifikácie
+         */
         private Notification(String message, TeamManager teamManager) {
             this.message = message;
             this.teamManager = teamManager;
         }
     }
 
+    /**
+     * Metóda pre pridanie novej notifikácie.
+     * @param message     správa notifikácie
+     * @param teamManager manažér tímu notifikácie
+     */
     public void add(String message, TeamManager teamManager) {
         notifications.add(new Notification(message, teamManager));
     }
 
+    /**
+     * Metóda vráti názov tímu spojeného s prvou notifikáciou v zozname.
+     * @return názov tímu spojeného s prvou notifikáciou
+     */
     public String getFirstNotificationTeamManager() {
         return notifications.get(0).teamManager.getTeam().getName();
     }
 
+    /**
+     * Metóda vráti správu prvej notifikácie v zozname.
+     * @return správa prvej notifikácie
+     */
     public String getFirstNotificationMessage() {
         return notifications.get(0).message;
     }
 
+    /**
+     * Metóda pre aktualizáciu a zobrazenie notifikácie.
+     * Ak existuje aspoň jedna notifikácia, vytvorí sa a zobrazí sa grafické okno notifikácie.
+     * Po kliknutí na tlačidlo "Let's do it" sa prvá notifikácia odstráni zo zoznamu a notifikácia sa serializuje do súboru "notificationHandler.ser".
+     * Po kliknutí na tlačidlo "Another time" sa okno notifikácie jednoducho zatvorí.
+     */
     public void update() {
         if(notifications.size() > 0) {
             JFrame notificationFrame = new JFrame("MYS | Notification");
@@ -72,7 +102,7 @@ public class NotificationHandler implements Serializable {
             doneButton.addActionListener(x -> {
                 notifications.remove(0);
                 notificationFrame.dispose();
-                //SERIALIZATION
+                // SERIALIZATION - uloženie NotificationHandler do súboru "notificationHandler.ser"
                 try {
                     FileOutputStream fileOut = new FileOutputStream("notificationHandler.ser");
                     ObjectOutputStream out = new ObjectOutputStream(fileOut);

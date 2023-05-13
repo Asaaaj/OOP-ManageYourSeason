@@ -3,26 +3,37 @@ package controller;
 import model.Season;
 import model.TeamManager;
 import view.ApplicationFrame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
+/**
+ * Trieda TeamManagerControl poskytuje funkcionalitu pre ovládanie tímu manažéra.
+ */
 public class TeamManagerControl implements Serializable{
     private TeamManager teamManager;
     private Season season;
     private NotificationHandler handler;
 
+    /**
+     * Konštruktor pre vytvorenie inštancie TeamManagerControl pre daného manažéra tímu.
+     * @param teamManager manažér tímu
+     */
     public TeamManagerControl(TeamManager teamManager) {
         this.teamManager = teamManager;
     }
 
+    /**
+     * Metóda, ktorá vytvára a vracia panel pre ovládanie tímového manažéra.
+     * @return panel pre ovládanie tímového manažéra
+     */
     public JPanel panel() {
         season = null;
         handler = null;
         JPanel panel = new JPanel();
         JButton logOutButton = new JButton("Log out");
-        //DESERIALIZATION
+
+        // DESERIALIZATION - načítanie Season zo súboru "season.ser"
         try {
             FileInputStream fileIn = new FileInputStream("season.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -35,7 +46,7 @@ public class TeamManagerControl implements Serializable{
             System.out.println("Season class not found");
             c.printStackTrace();
         }
-        //DESERIALIZATION
+        // DESERIALIZATION - načítanie NotificationHandler zo súboru "notificationHandler.ser"
         try {
             FileInputStream fileIn = new FileInputStream("notificationHandler.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -93,7 +104,9 @@ public class TeamManagerControl implements Serializable{
 
                 notificationConfirm.addActionListener(action -> {
                     handler.add(notificationInput.getText(), teamManager);
-                    //SERIALIZATION
+
+                    // SERIALIZATION - uloženie NotificationHandler do súboru "notificationHandler.ser"
+
                     try {
                         FileOutputStream fileOut = new FileOutputStream("notificationHandler.ser");
                         ObjectOutputStream out = new ObjectOutputStream(fileOut);

@@ -1,11 +1,21 @@
 package controller;
 
 import model.*;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Tato trieda obsahuje metody na riadenie aplikacie.
+ */
 public class ApplicationControl {
+    /**
+     * Metoda overujuca prihlasovacie udaje
+     * @param usernameInput prihlasovacie meno
+     * @param passwordInput heslo
+     * @return vrati prihlaseneho uzivatela, ak je prihlasenie uspesne
+     * @throws NoInputException    vynimka, ak chyba vstupne meno alebo heslo
+     * @throws WrongInputException vynimka, ak su zadane nespravne údaje
+     */
     public static User checkLoggingIn(String usernameInput, String passwordInput) throws NoInputException, WrongInputException {
         if (usernameInput.equals("") || passwordInput.equals("")) throw new NoInputException();
         else {
@@ -20,6 +30,13 @@ public class ApplicationControl {
         }
     }
 
+    /**
+     * Skontroluje a prida novy pretek do sezony.
+     * @param raceName  nazov krajiny
+     * @param season    aktualna sezona
+     * @param countries zoznam dostupnych krajin
+     * @return aktualizovana sezona pretekov s pridanym pretekom
+     */
     public static ArrayList<RaceWeek> checkAddRaceInput(String raceName, ArrayList<RaceWeek> season, ArrayList<Country> countries) {
         RaceWeek newRace;
         for (Country country : countries) {
@@ -40,6 +57,12 @@ public class ApplicationControl {
         return season;
     }
 
+    /**
+     * Odstrani pridanu krajinu zo zoznamu krajin.
+     * @param raceName  nazov krajiny
+     * @param countries zoznam krajin
+     * @return aktualizovany zoznam krajin
+     */
     public static ArrayList<Country> removeAddedCountry(String raceName, ArrayList<Country> countries) {
         int countryPosition = 0;
         for (Country country : countries) {
@@ -54,6 +77,12 @@ public class ApplicationControl {
         return countries;
     }
 
+    /**
+     * Vypocita vzdialenost medzi dvoma krajinami na zaklade predchadzajucej krajiny.
+     * @param prevCountry predchadzajuca krajina
+     * @param nextCountry nasledujuca krajina
+     * @return vzdialenost medzi krajinami
+     */
     public static int distanceFromPreviousRace(Country prevCountry, Country nextCountry) {
         if(prevCountry == null) return 0;
         ArrayList<String> regions = new ArrayList<>();
@@ -74,6 +103,12 @@ public class ApplicationControl {
         return Math.min(thread1.getDistance(), thread2.getDistance());
     }
 
+    /**
+     * Odstrani pretek zo sezony na zaklade nazvu krajiny.
+     * @param season        aktualna sezona
+     * @param removeCountry nazov krajiny na odstranenie
+     * @return aktualizovana sezona pretekov
+     */
     public static ArrayList<RaceWeek> removeRace(Season season, String removeCountry) {
         int index = 0;
         for (RaceWeek raceWeek : season.getRaceWeeks()) {

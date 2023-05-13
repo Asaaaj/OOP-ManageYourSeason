@@ -4,19 +4,25 @@ import model.Country;
 import model.RaceWeek;
 import model.Season;
 import view.ApplicationFrame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
+/**
+ * Trieda AdminControl predstavuje ovládanie pre administrátora.
+ */
 public class AdminControl {
     private NotificationHandler handler;
     private Season season;
 
+    /**
+     * Vytvára panel pre administrátora.
+     * @return panel pre administrátora
+     */
     public JPanel panel() {
         season = null;
         handler = null;
-        //DESERIALIZATION
+        // DESERIALIZATION - načítanie Season zo súboru "season.ser"
         try {
             FileInputStream fileIn = new FileInputStream("season.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -29,7 +35,7 @@ public class AdminControl {
             System.out.println("Season class not found");
             c.printStackTrace();
         }
-        //DESERIALIZATION
+        // DESERIALIZATION - načítanie NotificationHandler zo súboru "notificationHandler.ser"
         try {
             FileInputStream fileIn = new FileInputStream("notificationHandler.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -44,7 +50,6 @@ public class AdminControl {
         }
 
         notifyObserver();
-
 
         JPanel panel = new JPanel(new GridLayout(0, 1));
         JLabel title = new JLabel("Administrator", SwingConstants.CENTER);
@@ -74,10 +79,12 @@ public class AdminControl {
             nextRaceButton.addActionListener(x -> {
                 if(season.getCurrentRace() < season.getNumberOfRaces()) {
                     season.setCurrentRace(season.getCurrentRace() + 1);
-                        adminTopPanel.revalidate();
-                        adminTopPanel.repaint();
-                        panel.revalidate();
-                        panel.repaint();
+                    adminTopPanel.revalidate();
+                    adminTopPanel.repaint();
+                    panel.revalidate();
+                    panel.repaint();
+
+                    // SERIALIZATION - uloženie Season do súboru "season.ser"
                     try {
                         FileOutputStream fileOut = new FileOutputStream("season.ser");
                         ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -271,7 +278,8 @@ public class AdminControl {
                         season = null;
                         frame.dispose();
                         System.out.println("Season Ended");
-                        //SERIALIZATION
+
+                        // SERIALIZATION - uloženie Season do súboru "season.ser"
                         try {
                             FileOutputStream fileOut = new FileOutputStream("season.ser");
                             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -291,8 +299,8 @@ public class AdminControl {
                         season.setStarted(true);
                         frame.dispose();
                         System.out.println("Season start");
-                        
-                        //SERIALIZATION
+
+                        // SERIALIZATION - uloženie Season do súboru "season.ser"
                         try {
                             FileOutputStream fileOut = new FileOutputStream("season.ser");
                             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -316,7 +324,7 @@ public class AdminControl {
             } else if (season != null && season.isStarted()) {
                 season = null;
 
-                //SERIALIZATION
+                // SERIALIZATION - uloženie Season do súboru "season.ser"
                 try {
                     FileOutputStream fileOut = new FileOutputStream("season.ser");
                     ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -348,8 +356,8 @@ public class AdminControl {
                 frame.setResizable(false);
                 frame.setVisible(true);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                }
-            });
+            }
+        });
 
         cancelRaceButton.addActionListener(event -> {
             if (season != null && season.isStarted()) {
@@ -372,7 +380,8 @@ public class AdminControl {
 
                 doneButton.addActionListener(x -> {
                     season.setRaceWeeks(ApplicationControl.removeRace(season, removeRaceInput.getText()));
-                    //SERIALIZATION
+
+                    // SERIALIZATION - uloženie Season do súboru "season.ser"
                     try {
                         FileOutputStream fileOut = new FileOutputStream("season.ser");
                         ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -415,6 +424,9 @@ public class AdminControl {
         return panel;
     }
 
+    /**
+     * Metóda upozorní observera o zmene v sezóne.
+     */
     public void notifyObserver() {
         if(handler != null) handler.update();
     }
