@@ -44,8 +44,7 @@ public class AdminControl {
         if (season != null && season.isStarted()) {
             addRaceButton.setEnabled(false);
             addRaceButton.setOpaque(false);
-            startSeasonButton.setEnabled(false);
-            startSeasonButton.setOpaque(false);
+            startSeasonButton.setText("End season");
             JPanel adminTopPanel = new JPanel(new GridLayout(1, 2));
             adminTopPanel.add(title);
 
@@ -249,7 +248,7 @@ public class AdminControl {
         });
 
         startSeasonButton.addActionListener((event) -> {
-            if(season != null) {
+            if(season != null && season.getCurrentRace() == 0) {
                 JFrame frame = new JFrame("MYS | Start a season");
                 JPanel startSeasonPanel = new JPanel(new GridLayout(2, 0));
                 JLabel seasonStatus;
@@ -291,8 +290,21 @@ public class AdminControl {
                 frame.setResizable(false);
                 frame.setVisible(true);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            }
-            else {
+            } else if (season != null && season.isStarted()) {
+                season = null;
+
+                //SERIALIZATION
+                try {
+                    FileOutputStream fileOut = new FileOutputStream("season.ser");
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                    out.writeObject(season);
+                    out.close();
+                    fileOut.close();
+                    System.out.println("Season serialized and saved to season.ser");
+                } catch(IOException i) {
+                    i.printStackTrace();
+                }
+            } else {
                 System.out.println("No races added");
                 JFrame frame = new JFrame("MYS | No Races Added");
                 JPanel startSeasonPanel = new JPanel(new GridLayout(2, 0));
