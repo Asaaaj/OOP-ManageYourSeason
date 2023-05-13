@@ -3,12 +3,17 @@ package model;
 import controller.TeamManagerControl;
 
 import javax.swing.*;
+import java.io.Serializable;
 
-public class TeamManager implements User {
-    private String teamName;
+public class TeamManager implements User, Serializable {
+    private Team team;
     private String username = "teammanager";
     private String password = "1111";
-    private TeamManagerControl control = new TeamManagerControl();
+    private TeamManagerControl control = new TeamManagerControl(this);
+
+    public TeamManager(String teamName) {
+        this.team = new Team(teamName);
+    }
 
     @Override
     public void displayName() {
@@ -24,10 +29,6 @@ public class TeamManager implements User {
     public void logOut() {
 
     }
-
-    public void sendRequest() {
-    }
-
     @Override
     public JPanel control() {
         return control.panel();
@@ -36,5 +37,9 @@ public class TeamManager implements User {
     @Override
     public String controlName() {
         return "Team Manager Control Menu";
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

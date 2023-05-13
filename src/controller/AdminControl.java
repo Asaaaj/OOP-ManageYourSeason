@@ -12,12 +12,13 @@ import java.awt.event.ActionEvent;
 import java.io.*;
 
 public class AdminControl {
+    private NotificationHandler handler;
     private AdminView adminView = new AdminView();
     private Season season;
 
     public JPanel panel() {
         season = null;
-
+        handler = null;
         //DESERIALIZATION
         try {
             FileInputStream fileIn = new FileInputStream("season.ser");
@@ -31,6 +32,21 @@ public class AdminControl {
             System.out.println("Season class not found");
             c.printStackTrace();
         }
+        //DESERIALIZATION
+        try {
+            FileInputStream fileIn = new FileInputStream("notificationHandler.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            handler = (NotificationHandler) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+        } catch(ClassNotFoundException c) {
+            System.out.println("NotificationHandler class not found");
+            c.printStackTrace();
+        }
+
+        notifyObserver();
 
 
         JPanel panel = new JPanel(new GridLayout(6, 3));
@@ -248,7 +264,7 @@ public class AdminControl {
         });
 
         startSeasonButton.addActionListener((event) -> {
-            if(season != null && season.getCurrentRace() == 0) {
+            if(season != null && season.getCurrentRace() - 1 == 0) {
                 JFrame frame = new JFrame("MYS | Start a season");
                 JPanel startSeasonPanel = new JPanel(new GridLayout(2, 0));
                 JLabel seasonStatus;
@@ -337,5 +353,9 @@ public class AdminControl {
         });
 
         return panel;
+    }
+
+    public void notifyObserver() {
+        if(handler != null) handler.update();
     }
 }

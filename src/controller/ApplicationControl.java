@@ -11,7 +11,7 @@ public class ApplicationControl {
             if(usernameInput.equals("admin") && passwordInput.equals("1111")){
                 return Administrator.getInstance();
             }
-            else if(usernameInput.equals("ferrari") && passwordInput.equals("1111") ) return new TeamManager();
+            else if(usernameInput.equals("ferrari") && passwordInput.equals("1111") ) return new TeamManager("Ferrari");
             else throw new WrongInputException();
         }
     }

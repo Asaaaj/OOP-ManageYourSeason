@@ -1,20 +1,25 @@
 package controller;
 
-import model.Notification;
 import model.Season;
+import model.TeamManager;
 import view.ApplicationFrame;
-import view.NotificationView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 
-public class TeamManagerControl {
+public class TeamManagerControl implements Serializable{
+    private TeamManager teamManager;
     private Season season;
+    private NotificationHandler handler;
+
+    public TeamManagerControl(TeamManager teamManager) {
+        this.teamManager = teamManager;
+    }
+
     public JPanel panel() {
         season = null;
+        handler = null;
         JPanel panel = new JPanel();
         JButton logOutButton = new JButton("Log out");
         //DESERIALIZATION
@@ -30,6 +35,19 @@ public class TeamManagerControl {
             System.out.println("Season class not found");
             c.printStackTrace();
         }
+        //DESERIALIZATION
+        try {
+            FileInputStream fileIn = new FileInputStream("notificationHandler.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            handler = (NotificationHandler) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+        } catch(ClassNotFoundException c) {
+            System.out.println("NotificationHandler class not found");
+            c.printStackTrace();
+        }
 
         if (season == null) {
             panel.setLayout(new GridLayout(0, 1));
@@ -40,6 +58,7 @@ public class TeamManagerControl {
             panel.add(seasonStatus);
             panel.add(logOutButton);
         } else  {
+
             panel.setLayout(new GridLayout(5, 1));
             JLabel title = new JLabel("Team Manager", SwingConstants.CENTER);
             title.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -54,6 +73,7 @@ public class TeamManagerControl {
             panel.add(logOutButton);
 
             sendNotification.addActionListener(e -> {
+                if (handler == null) handler = new NotificationHandler();
                 JFrame notificationFrame = new JFrame("MYS | New notification");
                 JPanel notificationPanel = new JPanel(new GridLayout(0, 1));
 
@@ -72,7 +92,18 @@ public class TeamManagerControl {
                 notificationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
                 notificationConfirm.addActionListener(action -> {
-                    new Notification(notificationInput.getText());
+                    handler.add(notificationInput.getText(), teamManager);
+                    //SERIALIZATION
+                    try {
+                        FileOutputStream fileOut = new FileOutputStream("notificationHandler.ser");
+                        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                        out.writeObject(handler);
+                        out.close();
+                        fileOut.close();
+                        System.out.println("NotificationHandler serialized and saved to season.ser");
+                    } catch(IOException i) {
+                        i.printStackTrace();
+                    }
                     notificationFrame.dispose();
                 });
             });
