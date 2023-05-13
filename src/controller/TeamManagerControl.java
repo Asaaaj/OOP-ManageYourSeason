@@ -51,7 +51,7 @@ public class TeamManagerControl implements Serializable{
 
         if (season == null) {
             panel.setLayout(new GridLayout(0, 1));
-            JLabel title = new JLabel("Team Manager", SwingConstants.CENTER);
+            JLabel title = new JLabel("Team Manager - " + teamManager.getTeam().getName(), SwingConstants.CENTER);
             JLabel seasonStatus = new JLabel("Season has not started yet!", SwingConstants.CENTER);
             seasonStatus.setFont(new Font("Arial", Font.PLAIN, 50));
             panel.add(title);

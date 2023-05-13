@@ -3,6 +3,7 @@ package controller;
 import model.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ApplicationControl {
     public static User checkLoggingIn(String usernameInput, String passwordInput) throws NoInputException, WrongInputException {
@@ -11,7 +12,10 @@ public class ApplicationControl {
             if(usernameInput.equals("admin") && passwordInput.equals("1111")){
                 return Administrator.getInstance();
             }
-            else if(usernameInput.equals("ferrari") && passwordInput.equals("1111") ) return new TeamManager("Ferrari");
+            else if(usernameInput.equals("ferrari") && passwordInput.equals("1111") ) return TeamManagerAccount.logIn("ferrari");
+            else if(usernameInput.equals("redbull") && passwordInput.equals("1111") ) return TeamManagerAccount.logIn("redbull");
+            else if(usernameInput.equals("mercedes") && passwordInput.equals("1111") ) return TeamManagerAccount.logIn("mercedes");
+            else if(usernameInput.equals("mclaren") && passwordInput.equals("1111") ) return TeamManagerAccount.logIn("mclaren");
             else throw new WrongInputException();
         }
     }
@@ -68,5 +72,17 @@ public class ApplicationControl {
         thread2.run(regions, prevCountry, nextCountry);
 
         return Math.min(thread1.getDistance(), thread2.getDistance());
+    }
+
+    public static ArrayList<RaceWeek> removeRace(Season season, String removeCountry) {
+        int index = 0;
+        for (RaceWeek raceWeek : season.getRaceWeeks()) {
+            if (Objects.equals(removeCountry, raceWeek.getCountry().getName()) && season.getCurrentRace()-1 <= season.getRaceWeeks().indexOf(raceWeek)) {
+                season.getRaceWeeks().remove(index);
+                return season.getRaceWeeks();
+            }
+            index++;
+        }
+        return season.getRaceWeeks();
     }
 }

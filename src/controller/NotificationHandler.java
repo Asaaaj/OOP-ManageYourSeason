@@ -4,6 +4,9 @@ import model.TeamManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -69,6 +72,17 @@ public class NotificationHandler implements Serializable {
             doneButton.addActionListener(x -> {
                 notifications.remove(0);
                 notificationFrame.dispose();
+                //SERIALIZATION
+                try {
+                    FileOutputStream fileOut = new FileOutputStream("notificationHandler.ser");
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                    out.writeObject(this);
+                    out.close();
+                    fileOut.close();
+                    System.out.println("NotificationHandler serialized and saved to season.ser");
+                } catch(IOException i) {
+                    i.printStackTrace();
+                }
             });
 
             closeButton.addActionListener(x -> notificationFrame.dispose());

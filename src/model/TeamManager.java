@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class TeamManager implements User, Serializable {
     private Team team;
     private String username = "teammanager";
-    private String password = "1111";
     private TeamManagerControl control = new TeamManagerControl(this);
 
     public TeamManager(String teamName) {
@@ -18,16 +17,6 @@ public class TeamManager implements User, Serializable {
     @Override
     public void displayName() {
         System.out.println(username);
-    }
-
-    @Override
-    public void logIn() {
-
-    }
-
-    @Override
-    public void logOut() {
-
     }
     @Override
     public JPanel control() {

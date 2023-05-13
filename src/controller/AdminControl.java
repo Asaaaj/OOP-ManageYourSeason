@@ -3,17 +3,14 @@ package controller;
 import model.Country;
 import model.RaceWeek;
 import model.Season;
-import view.AdminView;
 import view.ApplicationFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.*;
 
 public class AdminControl {
     private NotificationHandler handler;
-    private AdminView adminView = new AdminView();
     private Season season;
 
     public JPanel panel() {
@@ -49,13 +46,12 @@ public class AdminControl {
         notifyObserver();
 
 
-        JPanel panel = new JPanel(new GridLayout(6, 3));
+        JPanel panel = new JPanel(new GridLayout(0, 1));
         JLabel title = new JLabel("Administrator", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         JButton addRaceButton = new JButton("Add race");
         JButton startSeasonButton = new JButton("Start season");
         JButton cancelRaceButton = new JButton("Cancel race");
-        JButton changeDateButton = new JButton("Change date");
         JButton logOutButton = new JButton("Log out");
         if (season != null && season.isStarted()) {
             addRaceButton.setEnabled(false);
@@ -98,7 +94,6 @@ public class AdminControl {
         else panel.add(title, BorderLayout.CENTER);
 
         panel.add(addRaceButton, BorderLayout.CENTER);
-        panel.add(changeDateButton, BorderLayout.CENTER);
         panel.add(cancelRaceButton, BorderLayout.CENTER);
         panel.add(startSeasonButton, BorderLayout.CENTER);
         panel.add(logOutButton, BorderLayout.CENTER);
@@ -181,7 +176,7 @@ public class AdminControl {
             }
 
             frame.add(new JScrollPane(addRacePanel));
-            frame.setSize(1000, 600);
+            frame.setSize(1200, 600);
             frame.setResizable(false);
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -271,10 +266,22 @@ public class AdminControl {
                 JButton seasonStatusButton;
                 if (season.isStarted()) {
                     seasonStatus = new JLabel("Season has already started" , SwingConstants.CENTER);
-                    seasonStatusButton = new JButton("Ok");
+                    seasonStatusButton = new JButton("End Season");
                     seasonStatusButton.addActionListener((action) -> {
+                        season = null;
                         frame.dispose();
-                        System.out.println("Season has already started");
+                        System.out.println("Season Ended");
+                        //SERIALIZATION
+                        try {
+                            FileOutputStream fileOut = new FileOutputStream("season.ser");
+                            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                            out.writeObject(season);
+                            out.close();
+                            fileOut.close();
+                            System.out.println("Season serialized and saved to season.ser");
+                        } catch(IOException i) {
+                            i.printStackTrace();
+                        }
                     });
                 } else {
                     seasonStatus = new JLabel("Start the season" , SwingConstants.CENTER);
@@ -343,6 +350,59 @@ public class AdminControl {
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 }
             });
+
+        cancelRaceButton.addActionListener(event -> {
+            if (season != null && season.isStarted()) {
+                JFrame frame = new JFrame("MYS | Remove a Race");
+                JPanel removeRacePanel = new JPanel(new GridLayout(0,1));
+                JLabel removeRaceTitle = new JLabel("Remove a Race", SwingConstants.CENTER);
+                removeRaceTitle.setFont(new Font("Arial", Font.PLAIN, 25));
+                JTextField removeRaceInput = new JTextField();
+                removeRacePanel.add(removeRaceTitle);
+                removeRacePanel.add(removeRaceInput);
+                removeRacePanel.add(new JLabel(""));
+
+                JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
+                JButton doneButton = new JButton("Remove");
+                JButton closeButton = new JButton("Close");
+                buttonPanel.add(doneButton);
+                buttonPanel.add(closeButton);
+
+                removeRacePanel.add(buttonPanel);
+
+                doneButton.addActionListener(x -> {
+                    season.setRaceWeeks(ApplicationControl.removeRace(season, removeRaceInput.getText()));
+                    //SERIALIZATION
+                    try {
+                        FileOutputStream fileOut = new FileOutputStream("season.ser");
+                        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                        out.writeObject(season);
+                        out.close();
+                        fileOut.close();
+                        System.out.println("Season serialized and saved to season.ser");
+                    } catch(IOException i) {
+                        i.printStackTrace();
+                    }
+                    frame.dispose();
+                });
+
+                closeButton.addActionListener(x -> frame.dispose());
+
+                JLabel listOfRaces = new JLabel("List of all races");
+                listOfRaces.setFont(new Font("Arial", Font.PLAIN, 20));
+                removeRacePanel.add(listOfRaces);
+
+                for(RaceWeek raceWeek : season.getRaceWeeks()) {
+                    JLabel countryName = new JLabel(raceWeek.getCountry().getName(), SwingConstants.CENTER);
+                    removeRacePanel.add(countryName);
+                }
+                frame.add(new JScrollPane(removeRacePanel));
+                frame.setSize(800, 800);
+                frame.setResizable(false);
+                frame.setVisible(true);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
+        });
 
         logOutButton.addActionListener((event) -> {
             for (Window win : Window.getWindows()) {
