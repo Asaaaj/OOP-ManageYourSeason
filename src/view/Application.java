@@ -1,5 +1,9 @@
 package view;
 
 public interface Application {
-    void start();
+    default void start() {
+        Object frame = logInFrame();   
+    }
+
+    Object logInFrame();
 }

@@ -10,11 +10,21 @@ public class Season implements Serializable {
     ArrayList<RaceWeek> raceWeeks;
     ArrayList<Country> countries;
     private boolean isStarted = false;
+    private int currentRace;
 
     public Season() {
+        currentRace = 1;
         raceWeeks = new ArrayList<>();
         countries = new ArrayList<>();
         countries = loadCountries();
+    }
+
+    public int getCurrentRace() {
+        return currentRace;
+    }
+
+    public void setCurrentRace(int currentRace) {
+        this.currentRace = currentRace;
     }
 
     public int getNumberOfRaces() {

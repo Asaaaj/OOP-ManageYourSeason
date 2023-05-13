@@ -35,6 +35,6 @@ public class TeamManager implements User {
 
     @Override
     public String controlName() {
-        return "Administrator Control Menu";
+        return "Team Manager Control Menu";
     }
 }

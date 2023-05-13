@@ -3,19 +3,14 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import controller.*;
-import model.Administrator;
 import model.NoInputException;
+import model.WrongInputException;
 import model.User;
 
 
 public class ApplicationFrame extends JFrame implements Application{
-    JFrame frame;
 
-    public void start() {
-        frame = logInFrame();
-    }
-
-    private JFrame logInFrame() {
+    public JFrame logInFrame() {
         JFrame frame = new JFrame("MYS | Log In");
         JPanel panel = new JPanel();
 
@@ -52,16 +47,11 @@ public class ApplicationFrame extends JFrame implements Application{
         logIn.addActionListener((event) -> {
             try {
                 User user = ApplicationControl.checkLoggingIn(usernameInput.getText(), passwordInput.getText());
-                //frame.remove(panel);
-                //frame.add(user.control());
                 frame.setContentPane(user.control());
                 frame.setTitle("MYS | " + user.controlName());
                 frame.setSize(900, 600);
-                if(user instanceof Administrator) {
-                    System.out.println("user is administrator");
-                }
             } catch (NoInputException exception) {
-                System.out.println("d");
+                //CUSTOM EXCEPTION
                 JPanel exceptionPanel = new JPanel();
                 JLabel exceptionLabel = new JLabel("FILL THE TEXT FIELDS!", SwingConstants.CENTER);
                 exceptionPanel.setSize(frame.getWidth(), frame.getHeight());
@@ -76,9 +66,22 @@ public class ApplicationFrame extends JFrame implements Application{
                 exceptionPanel.add(logIn);
                 exceptionPanel.add(exitButton);
                 frame.setContentPane(exceptionPanel);
+            } catch (WrongInputException exception) {
+                JPanel exceptionPanel = new JPanel();
+                JLabel exceptionLabel = new JLabel("WRONG USERNAME OR PASSWORD!", SwingConstants.CENTER);
+                exceptionPanel.setSize(frame.getWidth(), frame.getHeight());
+                exceptionPanel.setLayout(new GridLayout(10,1,0, 0));
+                exceptionPanel.add(title, BorderLayout.CENTER);
+                exceptionPanel.add(underTitle);
+                exceptionPanel.add(exceptionLabel);
+                exceptionPanel.add(username);
+                exceptionPanel.add(usernameInput);
+                exceptionPanel.add(password);
+                exceptionPanel.add(passwordInput);
+                exceptionPanel.add(logIn);
+                exceptionPanel.add(exitButton);
+                frame.setContentPane(exceptionPanel);
             }
-            //CUSTOM EXCEPTION
-
         });
         return frame;
     }

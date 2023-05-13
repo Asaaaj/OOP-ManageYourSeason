@@ -5,14 +5,14 @@ import model.*;
 import java.util.ArrayList;
 
 public class ApplicationControl {
-    public static User checkLoggingIn(String usernameInput, String passwordInput) throws NoInputException{
+    public static User checkLoggingIn(String usernameInput, String passwordInput) throws NoInputException, WrongInputException {
         if (usernameInput.equals("") || passwordInput.equals("")) throw new NoInputException();
         else {
             if(usernameInput.equals("admin") && passwordInput.equals("1111")){
                 return Administrator.getInstance();
             }
             else if(usernameInput.equals("ferrari") && passwordInput.equals("1111") ) return new TeamManager();
-            else return new TeamManager();
+            else throw new WrongInputException();
         }
     }
 

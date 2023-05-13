@@ -41,7 +41,47 @@ public class AdminControl {
         JButton cancelRaceButton = new JButton("Cancel race");
         JButton changeDateButton = new JButton("Change date");
         JButton logOutButton = new JButton("Log out");
-        panel.add(title, BorderLayout.CENTER);
+        if (season != null && season.isStarted()) {
+            addRaceButton.setEnabled(false);
+            addRaceButton.setOpaque(false);
+            startSeasonButton.setEnabled(false);
+            startSeasonButton.setOpaque(false);
+            JPanel adminTopPanel = new JPanel(new GridLayout(1, 2));
+            adminTopPanel.add(title);
+
+            JPanel sideSimulationPanel = new JPanel(new GridLayout(2, 1));
+            JLabel numberOfRace = new JLabel("Race :" + season.getCurrentRace() + "/" + season.getNumberOfRaces(), SwingConstants.CENTER);
+
+            JPanel sideSimulationPanelBottom = new JPanel(new GridLayout(1, 2));
+            JButton nextRaceButton = new JButton("Next race");
+            sideSimulationPanelBottom.add(nextRaceButton);
+            sideSimulationPanel.add(numberOfRace);
+            sideSimulationPanel.add(sideSimulationPanelBottom);
+            adminTopPanel.add(sideSimulationPanel);
+            panel.add(adminTopPanel);
+
+            nextRaceButton.addActionListener(x -> {
+                if(season.getCurrentRace() < season.getNumberOfRaces()) {
+                    season.setCurrentRace(season.getCurrentRace() + 1);
+                        adminTopPanel.revalidate();
+                        adminTopPanel.repaint();
+                        panel.revalidate();
+                        panel.repaint();
+                    try {
+                        FileOutputStream fileOut = new FileOutputStream("season.ser");
+                        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                        out.writeObject(season);
+                        out.close();
+                        fileOut.close();
+                        System.out.println("Season serialized and saved to season.ser");
+                    } catch (IOException i) {
+                        i.printStackTrace();
+                    }
+                }
+            });
+        }
+        else panel.add(title, BorderLayout.CENTER);
+
         panel.add(addRaceButton, BorderLayout.CENTER);
         panel.add(changeDateButton, BorderLayout.CENTER);
         panel.add(cancelRaceButton, BorderLayout.CENTER);
