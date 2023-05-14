@@ -1,5 +1,6 @@
 package controller;
 
+import model.ControlPanel;
 import model.Country;
 import model.RaceWeek;
 import model.Season;
@@ -11,7 +12,7 @@ import java.io.*;
 /**
  * Trieda AdminControl predstavuje ovládanie pre administrátora.
  */
-public class AdminControl {
+public class AdminControl extends ControlPanel {
     private NotificationHandler handler;
     private Season season;
 

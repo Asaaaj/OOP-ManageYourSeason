@@ -1,5 +1,6 @@
 package controller;
 
+import model.ControlPanel;
 import model.Season;
 import model.TeamManager;
 import view.ApplicationFrame;
@@ -10,7 +11,7 @@ import java.io.*;
 /**
  * Trieda TeamManagerControl poskytuje funkcionalitu pre ovládanie tímu manažéra.
  */
-public class TeamManagerControl implements Serializable{
+public class TeamManagerControl extends ControlPanel implements Serializable{
     private TeamManager teamManager;
     private Season season;
     private NotificationHandler handler;
