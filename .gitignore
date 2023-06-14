@@ -8,8 +8,15 @@
 /dataSources.local.xml
 
 /.idea/
-
+/.settings/
+/.out/
 /.DS_Store
+
+.classpath
+.project
+Zadanie2.eml
+Zadanie2.iml
+Zadanie2.userlibraries
 
 season.ser
 notificationHandler.ser
